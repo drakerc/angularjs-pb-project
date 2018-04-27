@@ -1,0 +1,44 @@
+<div ng-controller="View1Ctrl">
+    <ol>
+        <li ng-repeat="item in studenci | filter: filterPhrase | orderBy: orderByPhrase">
+            <ul>
+                <li>Imię: {{ item.imie }}</li>
+                <li>Nazwisko: {{ item.nazwisko }}</li>
+                <li ng-hide="showAge" >Wiek: {{ item.wiek | ageFilter }}</li>
+                <li ng-if="item.oceny.length > 0">Oceny:
+                    <span ng-repeat="ocena in item.oceny">
+                        <ul ng-if="ocena === 1 || ocena === 2">
+                            <span style="color: red;">{{ ocena }}</span>
+                        </ul>
+                        <ul ng-if="ocena === 5">
+                            <span style="color: green;">{{ ocena }}</span>
+                        </ul>
+                        <ul ng-if="ocena === 3 || ocena === 4">
+                            <span>{{ ocena }}</span>
+                        </ul>
+                    </span>
+                    <span>Srednia ocen:
+                        <span ng-bind="average(item.oceny)"></span>
+                    </span>
+                </li>
+            </ul>
+        </li>
+    </ol>
+
+    <form id="new-student">
+        Imię: <input type="text" ng-model="firstName">
+        Nazwisko: <input type="text" ng-model="lastName">
+        Wiek: <input type="number" ng-model="age">
+        <button id="submit" ng-click="addStudent()">Dodaj studenta</button>
+    </form>
+
+    <form id="filter">
+        Wyszukiwarka: <input type="text" ng-model="filterPhrase">
+    </form>
+
+    <button ng-click="sortLastName()">Sortuj poprzez nazwisko</button>
+    <button ng-click="sortAge()">Sortuj poprzez wiek</button>
+
+
+    <button ng-click="triggerShowAge()">Kliknij aby wyswietlic wiek</button>
+</div>

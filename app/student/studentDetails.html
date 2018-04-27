@@ -1,0 +1,15 @@
+
+<div ng-if="$ctrl.gotcha">
+Przeglądasz użytkownika o ID: {{ $ctrl.id }}
+Imię tego użytkownika to {{ $ctrl.firstName }}
+Jego nazwisko to {{ $ctrl.lastName }}
+Jego wiek to {{ $ctrl.age }}
+A jego oceny są następujące:
+    <span ng-repeat="ocena in $ctrl.marks">
+                    {{ ocena }}
+                    </span>
+</div>
+
+<div ng-if="$ctrl.gotcha == false">
+    <button id="details" ng-click="$ctrl.getDetails($ctrl.id)">Pokaż szczegóły</button>
+</div>

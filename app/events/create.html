@@ -1,0 +1,16 @@
+<form id="new-event">
+    Nazwa: <input type="text" ng-model="title">
+    Kategoria: <category-selector on-update="setCategory(id)"></category-selector>
+
+    Data:
+    <datepicker>
+        <input ng-model="date" type="text"/>
+    </datepicker>
+
+    Osoba:
+    <select name="personSelect" id="personSelect" ng-model="person">
+        <option ng-repeat="person in people" value="{{person.id}}">{{person.firstName}} {{person.lastName}}</option>
+    </select>
+
+    <button id="submit" ng-click="add()">Dodaj wydarzenie</button>
+</form>

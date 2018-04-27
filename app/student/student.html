@@ -1,0 +1,5 @@
+<ul>
+    <li>Imię: {{ $ctrl.firstname }}</li>
+    <li>Nazwisko: {{ $ctrl.lastname }}</li>
+    <li ng-hide="$ctrl.showage" >Wiek: {{ $ctrl.age | ageFilter }}</li>
+</ul>
