@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
-    '720kb.datepicker',
+  '720kb.datepicker',
   'myApp.view1',
   'myApp.view2',
   'myApp.version',
@@ -43,6 +43,10 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
         controller: personsPlan
     });
 
+    $routeProvider.when('/event/day-plan/:date', {
+        templateUrl: 'events/day-plan.html',
+        controller: dayPlan
+    });
 
 
 
@@ -304,6 +308,19 @@ function createEvent ($scope, $http, $location) {
     this.category = 0;
     this.date = '';
     this.person = 0;
+    this.period = 0;
+
+    //Periods: 1: 8-10 2: 10-12, 3: 12-14, 4: 14-16, 5: 16-18, 6: 18-20, 7: 20-22, 8: 22-24
+    $scope.periods = [
+        {id: 1, startHour: 8, endHour: 10},
+        {id: 2, startHour: 10, endHour: 12},
+        {id: 3, startHour: 12, endHour: 14},
+        {id: 4, startHour: 14, endHour: 16},
+        {id: 5, startHour: 16, endHour: 18},
+        {id: 6, startHour: 18, endHour: 20},
+        {id: 7, startHour: 20, endHour: 22},
+        {id: 8, startHour: 22, endHour: 24},
+        ]
 
     $http({
         method: 'GET',
@@ -317,7 +334,7 @@ function createEvent ($scope, $http, $location) {
 
     $scope.add = function () {
         if (typeof $scope.title !== 'string' || typeof $scope.category !== 'string' ||
-            typeof $scope.date !== 'string' || typeof $scope.person !== 'string' || $scope.title=== '' || $scope.category === '' || $scope.date === '' || $scope.person === '') {
+            typeof $scope.date !== 'string' || typeof $scope.person !== 'string' || typeof $scope.period !== 'string' || $scope.title=== '' || $scope.category === '' || $scope.date === '' || $scope.person === '') {
                 alert('Wprowadziles nieprawidlowe dane');
                 return false;
         }
@@ -325,7 +342,7 @@ function createEvent ($scope, $http, $location) {
         $http({
             method: 'POST',
             url: 'http://localhost:3000/events',
-            data: {'title': $scope.title, 'category': $scope.category, 'date': $scope.date, 'person': $scope.person}
+            data: {'title': $scope.title, 'category': $scope.category, 'date': $scope.date, 'person': $scope.person, 'period': $scope.period}
         }).then(function successCallback(response) {
             // $scope.event.imie = $scope.firstName;
             // $scope.event.nazwisko = $scope.lastName;
@@ -355,20 +372,19 @@ function personsPlan ($scope, $http, $routeParams, $location) {
     }, function errorCallback(response) {
         console.log('fail');
     });
+};
 
-    // this.showAge = true;
-    // this.filterPhrase = '';
-    // this.orderByPhrase = 'imie'; //domyslnie jako od imienia
-    //
-    // $scope.sortAge = function () {
-    //     $scope.orderByPhrase = 'age';
-    // }
-    //
-    // $scope.sortLastName = function () {
-    //     $scope.orderByPhrase = 'lastName';
-    // }
-    //
-    // $scope.triggerShowAge = function () {
-    //     this.showAge = !this.showAge;
-    // };
+
+function dayPlan ($scope, $http, $routeParams, $location) {
+    var self = this;
+
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/events/dayPlan/' + $routeParams.date
+    }).then(function successCallback(response) {
+        var events = response.data;
+        $scope.events = events;
+    }, function errorCallback(response) {
+        console.log('fail');
+    });
 };

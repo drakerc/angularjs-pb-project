@@ -3,9 +3,15 @@
     Kategoria: <category-selector on-update="setCategory(id)"></category-selector>
 
     Data:
-    <datepicker>
+    <datepicker date-format="MM-dd-yyyy">
         <input ng-model="date" type="text"/>
     </datepicker>
+
+    Przedział czasowy:
+    <select name="periodSelect" id="periodSelect" ng-model="period">
+        <option ng-repeat="period in periods" value="{{period.id}}">{{period.startHour}}-{{period.endHour}}</option>
+    </select>
+
 
     Osoba:
     <select name="personSelect" id="personSelect" ng-model="person">
