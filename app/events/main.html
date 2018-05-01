@@ -20,7 +20,7 @@
         <a class="btn btn-warning btn-lg" role="button" ng-click="setMode('person')">Plan dla wybranej osoby</a>
     </p>
     <p class="lead" ng-if="mode == 'day'">
-        <datepicker date-format="MM-dd-yyyy">
+        <datepicker date-format="MM-dd-yyyy" date-enabled-dates="{{datesWithEvents}}">
             <input ng-model="date" class="form-control" type="text"/>
         </datepicker>
         <br><br>

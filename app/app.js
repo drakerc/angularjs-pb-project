@@ -28,8 +28,17 @@ angular.module('myApp', [
         controller: deleteStudent
     });
 
-
     $routeProvider.when('/event/create', {
+        templateUrl: 'events/create.html',
+        controller: createEvent
+    });
+
+    $routeProvider.when('/event/createWithDate/:date', {
+        templateUrl: 'events/create.html',
+        controller: createEvent
+    });
+
+    $routeProvider.when('/event/createWithPerson/:id', {
         templateUrl: 'events/create.html',
         controller: createEvent
     });
@@ -49,26 +58,19 @@ angular.module('myApp', [
         controller: monthlyPlan
     });
 
-
-    $routeProvider.otherwise({
-        templateUrl: 'events/main.html',
-        controller: mainPage
-    });
-
     $routeProvider.when('/event/edit/:id', {
         templateUrl: 'events/edit-event.html',
         controller: editEvent
     });
 
-    //
-    // $routeProvider.when('/event/list', {
-    //     templateUrl: 'events/list.html',
-    //     controller: listStudents
-    // });
-    //
     $routeProvider.when('/event/delete/:id', {
         templateUrl: 'events/delete.html',
         controller: deleteEvent
+    });
+
+    $routeProvider.otherwise({
+        templateUrl: 'events/main.html',
+        controller: mainPage
     });
 
 }])
@@ -113,11 +115,6 @@ angular.module('myApp', [
             if (month == 11) {
                 return 'Grudzień';
             }
-            // console.log(date)
-            // console.log(date.getDate());
-            // console.log(date.getDay());
-            // console.log(date.getMonth());
-            // console.log(date.getFullYear());
         };
     })
 
@@ -152,8 +149,6 @@ angular.module('myApp', [
 
     .filter('periodFilter', function () {
         return function (item) {
-            //Periods: 1: 8-10 2: 10-12, 3: 12-14, 4: 14-16, 5: 16-18, 6: 18-20, 7: 20-22, 8: 22-24
-
             if (item == 1) {
                 return '8-10';
             }
@@ -181,7 +176,7 @@ angular.module('myApp', [
         };
     })
 
-    .directive('back', ['$window', function($window) {
+    .directive('back', ['$window', function ($window) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -192,98 +187,22 @@ angular.module('myApp', [
         };
     }])
 
-    // .component('student', {
-    //     templateUrl: 'student/student.html',
-    //     bindings: {
-    //         firstname: '<',
-    //         lastname: '<',
-    //         age: '<',
-    //         showage: '<'
-    //     }
-    // })
-    // .component('studentMarks', {
-    //     templateUrl: 'studentMarks/studentMarks.html',
-    //
-    //     controller: function () {
-    //         this.$onInit = function () {
-    //             var $scope = this;
-    //             $scope.average = function () {
-    //                 var sum = 0;
-    //                 var i;
-    //                 for (i=0; i<this.marks.length; i++)  {
-    //                     sum += this.marks[i];
-    //                 }
-    //                 return (sum / this.marks.length).toFixed(2);
-    //             };
-    //         }
-    //     },
-    //     bindings: {
-    //         marks: '<'
-    //     }
-    // })
-    // .component('studentDetails', {
-    //     templateUrl: 'student/studentDetails.html',
-    //
-    //     controller: function ($http) {
-    //         this.$onInit = function () {
-    //             var $scope = this;
-    //             this.firstName = '';
-    //             this.lastName = '';
-    //             this.age = 0;
-    //             this.marks = [];
-    //             this.gotcha = false;
-    //
-    //             $scope.getDetails = function (id) {
-    //                 $http({
-    //                     method: 'GET',
-    //                     url: 'http://localhost:3000/students/' + id,
-    //                 }).then(function successCallback(response) {
-    //                     $scope.firstName = response.data.firstName;
-    //                     $scope.lastName = response.data.lastName;
-    //                     $scope.age = response.data.age;
-    //                     $scope.marks = response.data.oceny;
-    //                     $scope.gotcha = true;
-    //
-    //                 }, function errorCallback(response) {
-    //                     console.log('fail')
-    //                 });
-    //             };
-    //         }
-    //     },
-    //     bindings: {
-    //         id: '<'
-    //     }
-    // })
-    // .component('studentDelete', {
-    //     templateUrl: 'studentDelete/studentDelete.html',
-    //
-    //     controller: function ($http) {
-    //         this.$onInit = function () {
-    //             var $scope = this;
-    //
-    //             $scope.studentDelete = function (id) {
-    //                 $http({
-    //                     method: 'DELETE',
-    //                     url: 'http://localhost:3000/students/' + id,
-    //                 }).then(function successCallback(response) {
-    //                     $scope.onUpdate({value: id});
-    //                 }, function errorCallback(response) {
-    //                     console.log('fail')
-    //                 });
-    //             };
-    //         }
-    //     },
-    //     bindings: {
-    //         onUpdate: '&',
-    //         id: '<'
-    //     }
-    // })
-
     .component('showEvent', {
         templateUrl: 'events/components/showEvent.html',
 
-        controller: function () {
+        controller: function ($http) {
             this.$onInit = function () {
+                this.personDetails = null;
+                const that = this;
+
+                $http({
+                    method: 'GET',
+                    url: 'http://localhost:3000/students/' + this.person,
+                }).then(function successCallback(response) {
+                    that.personDetails = response.data.firstName + ' ' + response.data.lastName;
+                }, function errorCallback(response) {
+                    console.log('fail');
+                });
             }
         },
         bindings: {
@@ -292,7 +211,7 @@ angular.module('myApp', [
             category: '<',
             date: '<',
             period: '<',
-            person: '<',
+            person: '<'
         }
     })
 
@@ -484,14 +403,21 @@ function deleteStudent($scope, $http, $routeParams, $location) {
 };
 
 
-function createEvent($scope, $http, $location) {
+function createEvent($scope, $http, $location, $routeParams) {
     this.title = '';
     this.category = 0;
     this.date = '';
     this.person = 0;
     this.period = 0;
 
-    //Periods: 1: 8-10 2: 10-12, 3: 12-14, 4: 14-16, 5: 16-18, 6: 18-20, 7: 20-22, 8: 22-24
+    console.log($routeParams)
+    if ($routeParams.id !== null) {
+        $scope.person = $routeParams.id;
+    }
+    if ($routeParams.date !== null) {
+        $scope.date = $routeParams.date
+    }
+
     $scope.periods = [
         {id: 1, startHour: 8, endHour: 10},
         {id: 2, startHour: 10, endHour: 12},
@@ -500,8 +426,8 @@ function createEvent($scope, $http, $location) {
         {id: 5, startHour: 16, endHour: 18},
         {id: 6, startHour: 18, endHour: 20},
         {id: 7, startHour: 20, endHour: 22},
-        {id: 8, startHour: 22, endHour: 24},
-    ]
+        {id: 8, startHour: 22, endHour: 24}
+    ];
 
     $http({
         method: 'GET',
@@ -560,6 +486,7 @@ function personsPlan($scope, $http, $routeParams, $location) {
             url: 'http://localhost:3000/students/' + events[0].person,
         }).then(function successCallback(response) {
             $scope.person = response.data.firstName + ' ' + response.data.lastName;
+            $scope.personsId = $routeParams.id;
         }, function errorCallback(response) {
             console.log('fail')
         });
@@ -631,6 +558,24 @@ function mainPage($scope, $http, $routeParams, $location) {
     }, function errorCallback(response) {
         console.log('fail');
     });
+
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/events'
+    }).then(function successCallback(response) {
+        var events = response.data;
+
+        $scope.datesWithEvents = [];
+
+        events.forEach(function (event) {
+            $scope.datesWithEvents.push(event.date);
+        })
+
+        console.log($scope.datesWithEvents)
+    }, function errorCallback(response) {
+        console.log('fail');
+    });
+
 
     $scope.setMode = function (mode) {
         $scope.mode = mode;

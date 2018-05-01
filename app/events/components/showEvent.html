@@ -4,6 +4,8 @@
         <h5 class="card-title">Tytuł wydarzenia: {{ $ctrl.title }}</h5>
         <h5 class="card-title">Data: {{ $ctrl.date }}</h5>
         <p class="card-text">Okres: {{ $ctrl.period | periodFilter}}</p>
+        <p class="card-text">Osoba: <a href="#!/event/persons-plan/{{$ctrl.person}}">{{ $ctrl.personDetails }}</a></p>
+
         <a href="#!/event/edit/{{$ctrl.id}}" class="btn btn-primary">Edytuj</a>
         <a href="#!/event/delete/{{$ctrl.id}}" class="btn btn-danger">Usuń</a>
     </div>
