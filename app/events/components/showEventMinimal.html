@@ -1,0 +1,9 @@
+<div class="card">
+    <h5 class="card-header {{ $ctrl.color }}">
+        {{ $ctrl.title }} &middot; {{ $ctrl.date | europeanTimeFilter }} &middot;
+        {{ $ctrl.period | periodFilter}} &middot;
+        <a href="#!/event/persons-plan/{{$ctrl.person}}">{{ $ctrl.personDetails }}</a>
+        <a href="#!/event/delete/{{$ctrl.id}}" style="float: right;" class="btn btn-info">Usuń</a>
+        <a href="#!/event/edit/{{$ctrl.id}}" style="float: right;" class="btn btn-primary">Edytuj</a>
+    </h5>
+</div>

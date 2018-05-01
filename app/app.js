@@ -204,6 +204,45 @@ angular.module('myApp', [
         }
     })
 
+    .component('showEventMinimal', {
+        templateUrl: 'events/components/showEventMinimal.html',
+        controller: function ($http) {
+            this.$onInit = function () {
+                this.personDetails = null;
+                this.color = null;
+
+                if (this.category == 1) {
+                    this.color = 'bg-danger';
+                }
+                if (this.category == 2) {
+                    this.color = 'bg-success';
+                }
+                if (this.category == 3) {
+                    this.color = 'bg-warning';
+                }
+
+                const that = this;
+
+                $http({
+                    method: 'GET',
+                    url: 'http://localhost:3000/students/' + this.person,
+                }).then(function successCallback(response) {
+                    that.personDetails = response.data.firstName + ' ' + response.data.lastName;
+                }, function errorCallback(response) {
+                });
+            };
+        },
+        bindings: {
+            id: '<',
+            title: '<',
+            category: '<',
+            date: '<',
+            period: '<',
+            person: '<'
+        }
+    })
+
+
     .component('categoryBar', {
         templateUrl: 'events/components/categoryBar.html',
         controller: function () {
