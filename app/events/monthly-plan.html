@@ -1,0 +1,6 @@
+<div>
+    <h1>Przeglądasz wydarzenia z miesiąca {{ date | monthFilter }}</h1>
+    <div ng-repeat="event in events">
+        <show-event id="event.id" title="event.title" category="event.category" date="event.date" period="event.period" person="event.person"></show-event>
+    </div>
+</div>

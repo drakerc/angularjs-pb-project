@@ -1,0 +1,33 @@
+<div>
+    <div ng-if="mode == null">
+        Wybierz sposób działania programu: <br>
+        <button ng-click="setMode('day')">Plan według dnia</button>
+        <button ng-click="setMode('month')">Plan według miesiąca</button>
+        <button ng-click="setMode('person')">Plan dla danej osoby</button>
+    </div>
+
+    <div ng-if="mode == 'day'">
+        Proszę wprowadzić datę, z której chcesz obejrzeć wydarzenia:
+        <datepicker date-format="MM-dd-yyyy">
+            <input ng-model="date" type="text"/>
+        </datepicker>
+        <button ng-click="goToSelectedMode('day')">Przejdź dalej</button>
+    </div>
+
+    <div ng-if="mode == 'month'">
+        Proszę wybierz miesiąc:
+        <month-selector on-update="setMonth(id)"></month-selector>
+
+        <button ng-click="goToSelectedMode('month')">Przejdź dalej</button>
+    </div>
+
+    <div ng-if="mode == 'person'">
+        Proszę wybierz osobę, której wydarzenia chcesz obejrzeć:
+        <select name="personSelect" id="personSelect" ng-model="person">
+            <option ng-repeat="person in people" value="{{person.id}}">{{person.firstName}} {{person.lastName}}</option>
+        </select>
+
+        <button ng-click="goToSelectedMode('person')">Przejdź dalej</button>
+    </div>
+
+</div>

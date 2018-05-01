@@ -5,7 +5,7 @@ var router = express.Router();
 //Periods: 1: 8-10 2: 10-12, 3: 12-14, 4: 14-16, 5: 16-18, 6: 18-20, 7: 20-22, 8: 22-24
 
 var events = [
-    {id: 1, title: 'Zrobic zakupy spozywcze', category: 1, date: '04/22/2018', period: 1, person: 1},
+    {id: 1, title: 'Zrobic zakupy spozywcze', category: 1, date: '04-22-2018', period: 1, person: 1},
 ];
 
 
@@ -30,7 +30,7 @@ router.get('/:id([0-9])', function(req, res){
     }
 });
 
-router.get('/personsPlan/:id([0-9])', function(req, res){
+router.get('/personsPlan/:id([0-9])', function(req, res) {
     var currEvent = events.filter(function(event){
         if(event.person.toString() === req.params.id){
             return true;
@@ -45,13 +45,30 @@ router.get('/personsPlan/:id([0-9])', function(req, res){
 });
 
 
-router.get('/dayPlan/:date', function(req, res){
+router.get('/dayPlan/:date', function(req, res) {
     var currEvent = events.filter(function(event) {
         if(event.date === req.params.date){
             return true;
         }
     });
     if(currEvent.length >= 1){
+        res.json(currEvent);
+    } else {
+        res.status(404);
+        res.json({message: "Not Found"});
+    }
+});
+
+router.get('/monthlyPlan/:month', function(req, res) {
+    var currEvent = events.filter(function(event) {
+        var formattedDate = new Date(event.date);
+        var month = formattedDate.getMonth();
+        if (month == req.params.month){
+            return true;
+        }
+    });
+
+    if (currEvent.length >= 1){
         res.json(currEvent);
     } else {
         res.status(404);
