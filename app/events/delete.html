@@ -1,2 +1,9 @@
-<button id="delete" class="btn btn-danger" ng-click="eventDelete()">Usuń</button>
-<button id="cancel" class="btn btn-info" back>Anuluj usuwanie</button>
+<div class="jumbotron">
+    <h1 class="display-4">Usuwanie wydarzenia</h1>
+    <p class="lead">Czy jesteś pewien, że chcesz usunąć wydarzenie {{title}} z dnia {{date}}?</p>
+    <hr class="my-4">
+    <p class="lead">
+        <button id="delete" class="btn btn-danger" ng-click="eventDelete()">Usuń</button>
+        <button id="cancel" class="btn btn-info" back>Anuluj usuwanie</button>
+    </p>
+</div>

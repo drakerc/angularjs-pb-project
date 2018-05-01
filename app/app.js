@@ -531,11 +531,8 @@ function createEvent($scope, $http, $location) {
                 'period': $scope.period
             }
         }).then(function successCallback(response) {
-            // $scope.event.imie = $scope.firstName;
-            // $scope.event.nazwisko = $scope.lastName;
-            // $scope.event.wiek = $scope.age;
-            $location.path('/event/list');
-
+            // redirect to the list of person's events
+            $location.path('/event/persons-plan/' + $scope.person);
         }, function errorCallback(response) {
             console.log('fail');
         });
@@ -590,6 +587,7 @@ function dayPlan($scope, $http, $routeParams, $location) {
 function monthlyPlan($scope, $http, $routeParams, $location) {
     var self = this;
     $scope.date = null;
+    $scope.noRecords = false;
 
     $http({
         method: 'GET',
@@ -600,6 +598,7 @@ function monthlyPlan($scope, $http, $routeParams, $location) {
         $scope.date = events[0].date;
     }, function errorCallback(response) {
         console.log('fail');
+        $scope.noRecords = true;
     });
 };
 
@@ -648,6 +647,7 @@ function editEvent($scope, $http, $routeParams, $location) {
     $scope.date = null;
     $scope.selectedPeriod = null;
     $scope.period = null;
+    $scope.person = null;
 
     $scope.periods = [
         {id: 1, startHour: 8, endHour: 10},
@@ -669,6 +669,7 @@ function editEvent($scope, $http, $routeParams, $location) {
         $scope.date = response.data.date;
         $scope.period = response.data.period;
         $scope.selectedPeriod = response.data.period;
+        $scope.person = response.data.person;
     }, function errorCallback(response) {
         console.log('fail')
     });
@@ -695,7 +696,8 @@ function editEvent($scope, $http, $routeParams, $location) {
                 'period': $scope.period,
             }
         }).then(function successCallback(response) {
-            // $location.path('/ps5/list');
+            // redirect to the list of person's events
+            $location.path('/event/persons-plan/' + $scope.person);
         }, function errorCallback(response) {
             console.log('fail')
         });
@@ -707,6 +709,16 @@ function editEvent($scope, $http, $routeParams, $location) {
 };
 
 function deleteEvent($scope, $http, $routeParams, $location) {
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/events/' + $routeParams.id,
+    }).then(function successCallback(response) {
+        $scope.title = response.data.title;
+        $scope.date = response.data.date;
+    }, function errorCallback(response) {
+        console.log('fail')
+    });
+
     $scope.eventDelete = function () {
         $http({
             method: 'DELETE',

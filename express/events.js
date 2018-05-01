@@ -78,7 +78,6 @@ router.get('/monthlyPlan/:month', function(req, res) {
 
 
 router.post('/', function(req, res) {
-    console.log(req.body)
     if (!req.body.title || !req.body.category || !req.body.date || !req.body.person || !req.body.period) {
         res.status(400);
         res.json({message: "Bad Request posting"});

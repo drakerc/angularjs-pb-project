@@ -1,16 +1,27 @@
-<form id="edit-event">
-    Nazwa: <input type="text" ng-model="title">
-    Kategoria: <category-selector selected="category" on-update="setCategory(id)"></category-selector>
+<form>
+    <div class="form-group">
+        <label for="event-title">Tytuł wydarzenia</label>
+        <input type="text" class="form-control" id="event-title" placeholder="Wpisz tytuł" ng-model="title">
+    </div>
 
-    Data:
-    <datepicker date-format="MM-dd-yyyy">
-        <input ng-model="date" type="text"/>
-    </datepicker>
+    <div class="form-group">
+        <label for="event-category">Kategoria</label>
+        <category-selector id="event-category" selected="category" on-update="setCategory(id)"></category-selector>
+    </div>
 
-    Przedział czasowy:
-    <select name="periodSelect" id="periodSelect" ng-model="period">
-        <option ng-repeat="period in periods" value="{{period.id}}" ng-selected="period.id == selectedPeriod">{{period.startHour}}-{{period.endHour}}</option>
-    </select>
+    <div class="form-group">
+        <label for="event-date">Data</label>
+        <datepicker date-format="MM-dd-yyyy">
+            <input id="event-date" class="form-control" ng-model="date" type="text"/>
+        </datepicker>
+    </div>
 
-    <button id="submit" ng-click="editEvent()">Edytuj wydarzenie</button>
+    <div class="form-group">
+        <label for="event-period">Przedział czasowy</label>
+        <select id="event-period" class="form-control" name="periodSelect" ng-model="period">
+            <option ng-repeat="period in periods" value="{{period.id}}">{{period.startHour}}-{{period.endHour}}</option>
+        </select>
+    </div>
+
+    <button id="submit" ng-click="editEvent()" class="btn btn-primary">Zedytuj wydarzenie</button>
 </form>
