@@ -20,7 +20,7 @@ router.get('/', function(req, res){
     res.json(events);
 });
 
-router.get('/:id([0-9])', function (req, res) {
+router.get('/:id', function (req, res) {
     var currEvent = events.filter(function (event) {
         if (event.id == req.params.id) {
             return true;
@@ -34,7 +34,7 @@ router.get('/:id([0-9])', function (req, res) {
     }
 });
 
-router.get('/personsPlan/:id([0-9])', function (req, res) {
+router.get('/personsPlan/:id', function (req, res) {
     var currEvent = events.filter(function(event) {
         if (event.person.toString() === req.params.id) {
             return true;
@@ -97,8 +97,8 @@ router.post('/', function (req, res) {
     }
 });
 
-router.put('/:id', function(req, res) {
-    if((!req.body.title || !req.body.category || !req.body.date || !req.body.period || !req.params.id.toString().match(/^[0-9]$/g))) {
+router.put('/:id', function (req, res) {
+    if((!req.body.title || !req.body.category || !req.body.date || !req.body.period || !req.params.id.toString().match(/^[0-9]+$/g))) {
         res.status(400);
         res.json({message: "Bad Request put"});
     } else {

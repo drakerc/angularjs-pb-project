@@ -14,7 +14,7 @@ router.get('/', function (req, res) {
     res.json(students);
 });
 
-router.get('/:id([0-9])', function (req, res) {
+router.get('/:id', function (req, res) {
     var currStudent = students.filter(function (stud) {
         if (stud.id == req.params.id) {
             return true;
@@ -45,7 +45,7 @@ router.post('/', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-    if (!req.body.firstName || !req.body.lastName || !req.body.age || !req.params.id.toString().match(/^[0-9]$/g)) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.age || !req.params.id.toString().match(/^[0-9]+$/g)) {
         res.status(400);
         res.json({message: "Bad Request put"});
     } else {
