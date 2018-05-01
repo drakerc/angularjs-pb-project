@@ -1,3 +1,6 @@
+<div class="alert alert-warning" role="alert">
+    Edytujesz wydarzenie {{title}} z dnia {{date}}.
+</div>
 <form>
     <div class="form-group">
         <label for="event-title">Tytuł wydarzenia</label>
@@ -19,7 +22,7 @@
     <div class="form-group">
         <label for="event-period">Przedział czasowy</label>
         <select id="event-period" class="form-control" name="periodSelect" ng-model="period">
-            <option ng-repeat="period in periods" value="{{period.id}}">{{period.startHour}}-{{period.endHour}}</option>
+            <option ng-repeat="period in periods" ng-selected="period.id == selectedPeriod" value="{{period.id}}">{{period.startHour}}-{{period.endHour}}</option>
         </select>
     </div>
 

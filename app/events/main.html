@@ -1,35 +1,40 @@
-<div>
-    <div ng-if="mode == null">
-        Wybierz sposób działania programu: <br>
-        <button ng-click="setMode('day')">Plan według dnia</button>
-        <button ng-click="setMode('month')">Plan według miesiąca</button>
-        <button ng-click="setMode('person')">Plan dla danej osoby</button>
-    </div>
+<div class="jumbotron">
+    <h1 class="display-4">Witamy w aplikacji do zarządzania planem dnia!</h1>
 
-    <div ng-if="mode == 'day'">
+    <p class="lead" ng-if="mode == null">
+        Proszę wybrać, jakie wydarzenia chciałbyś zobaczyć. Możesz również użyć przycisku do stworzenia nowego wydarzenia.
+    </p>
+    <p class="lead" ng-if="mode == 'day'">
         Proszę wprowadzić datę, z której chcesz obejrzeć wydarzenia:
-        <datepicker date-format="MM-dd-yyyy">
-            <input ng-model="date" type="text"/>
-        </datepicker>
-        <button ng-click="goToSelectedMode('day')">Przejdź dalej</button>
-    </div>
-
-    <div ng-if="mode == 'month'">
+    </p>
+    <p class="lead" ng-if="mode == 'month'">
         Proszę wybierz miesiąc:
-        <month-selector on-update="setMonth(id)"></month-selector>
-
-        <button ng-click="goToSelectedMode('month')">Przejdź dalej</button>
-    </div>
-
-    <div ng-if="mode == 'person'">
+    </p>
+    <p class="lead" ng-if="mode == 'person'">
         Proszę wybierz osobę, której wydarzenia chcesz obejrzeć:
-        <select name="personSelect" id="personSelect" ng-model="person">
+    </p>
+    <hr class="my-4">
+    <p class="lead" ng-if="mode == null">
+        <a class="btn btn-primary btn-lg" role="button" ng-click="setMode('day')">Plan według dnia</a>
+        <a class="btn btn-info btn-lg" role="button" ng-click="setMode('month')">Plan według miesiąca</a>
+        <a class="btn btn-warning btn-lg" role="button" ng-click="setMode('person')">Plan dla wybranej osoby</a>
+    </p>
+    <p class="lead" ng-if="mode == 'day'">
+        <datepicker date-format="MM-dd-yyyy">
+            <input ng-model="date" class="form-control" type="text"/>
+        </datepicker>
+        <br><br>
+        <a class="btn btn-primary btn-lg" role="button" ng-click="goToSelectedMode('day')">Przejdź dalej</a>
+    </p>
+    <p class="lead" ng-if="mode == 'month'">
+        <month-selector on-update="setMonth(id)"></month-selector><br>
+        <a class="btn btn-primary btn-lg" role="button" ng-click="goToSelectedMode('month')">Przejdź dalej</a>
+    </p>
+    <p class="lead" ng-if="mode == 'person'">
+        <select name="personSelect" class="form-control" id="personSelect" ng-model="person">
             <option ng-repeat="person in people" value="{{person.id}}">{{person.firstName}} {{person.lastName}}</option>
-        </select>
-
-        <button ng-click="goToSelectedMode('person')">Przejdź dalej</button>
-    </div>
-
-    <a href="#!/event/create" class="btn btn-primary">Stwórz nowe wydarzenie</a>
-
+        </select><br>
+        <a class="btn btn-primary btn-lg" role="button" ng-click="goToSelectedMode('person')">Przejdź dalej</a>
+    </p>
+    <a href="#!/event/create" class="btn btn-success">Stwórz nowe wydarzenie</a>
 </div>
