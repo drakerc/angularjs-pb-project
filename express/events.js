@@ -18,7 +18,7 @@ router.get('/', function(req, res){
 
 router.get('/:id([0-9])', function(req, res){
     var currEvent = events.filter(function(event){
-        if(event.id === req.params.id){
+        if(event.id == req.params.id) {
             return true;
         }
     });
@@ -96,8 +96,9 @@ router.post('/', function(req, res) {
     }
 });
 
-router.put('/:id', function(req, res){
-    if((!req.body.title || !req.body.category || !req.body.date || !req.body.person || !req.body.period || !req.params.id.toString().match(/^[0-9]$/g))) {
+router.put('/:id', function(req, res) {
+    console.log(req.body)
+    if((!req.body.title || !req.body.category || !req.body.date || !req.body.period || !req.params.id.toString().match(/^[0-9]$/g))) {
         res.status(400);
         res.json({message: "Bad Request put"});
     } else {
@@ -111,7 +112,6 @@ router.put('/:id', function(req, res){
             events[updateIndex].title= req.body.title;
             events[updateIndex].category = req.body.category;
             events[updateIndex].date = req.body.date;
-            events[updateIndex].person = req.body.person;
             events[updateIndex].period = req.body.period;
             res.json({message: "Event id " + req.params.id + " updated.",
                 location: "/events/" + req.params.id});

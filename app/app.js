@@ -5,7 +5,6 @@ angular.module('myApp', [
     'ui.bootstrap',
     'ngRoute',
     '720kb.datepicker',
-    // 'myApp.view1',
     'myApp.version',
 ]).config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix('!');
@@ -56,24 +55,23 @@ angular.module('myApp', [
         controller: mainPage
     });
 
-    // $routeProvider.when('/event/edit/:id', {
-    //     templateUrl: 'events/edit.html',
-    //     controller: editStudent
-    // });
+    $routeProvider.when('/event/edit/:id', {
+        templateUrl: 'events/edit-event.html',
+        controller: editEvent
+    });
+
     //
     // $routeProvider.when('/event/list', {
     //     templateUrl: 'events/list.html',
     //     controller: listStudents
     // });
     //
-    // $routeProvider.when('/event/delete/:id', {
-    //     templateUrl: 'events/delete.html',
-    //     controller: deleteStudent
-    // });
+    $routeProvider.when('/event/delete/:id', {
+        templateUrl: 'events/delete.html',
+        controller: deleteEvent
+    });
 
 }])
-
-
     .filter('monthFilter', function () {
         return function (item) {
             var date = new Date(item);
@@ -183,6 +181,17 @@ angular.module('myApp', [
         };
     })
 
+    .directive('back', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.bind('click', function () {
+                    $window.history.back();
+                });
+            }
+        };
+    }])
+
     // .component('student', {
     //     templateUrl: 'student/student.html',
     //     bindings: {
@@ -287,6 +296,33 @@ angular.module('myApp', [
         }
     })
 
+    .component('categoryBar', {
+        templateUrl: 'events/components/categoryBar.html',
+
+        controller: function () {
+            this.$onInit = function () {
+                this.color = null;
+                this.title = null;
+
+                if (this.category == 1) {
+                    this.color = 'bg-danger';
+                    this.title = 'Zakupy';
+                }
+                if (this.category == 2) {
+                    this.color = 'bg-dark';
+                    this.title = 'Nauka';
+                }
+                if (this.category == 3) {
+                    this.color = 'bg-warning';
+                    this.title = 'Odpoczynek';
+                }
+            }
+        },
+        bindings: {
+            category: '<',
+        }
+    })
+
     .component('categorySelector', {
         templateUrl: 'events/components/categorySelector.html',
         controller: function () {
@@ -300,6 +336,7 @@ angular.module('myApp', [
             };
         },
         bindings: {
+            selected: '<',
             onUpdate: '&',
         }
     })
@@ -531,16 +568,12 @@ function personsPlan($scope, $http, $routeParams, $location) {
     }, function errorCallback(response) {
         console.log('fail');
     });
-
-
-
-
-
 };
 
 
 function dayPlan($scope, $http, $routeParams, $location) {
     var self = this;
+    $scope.date = null;
 
     $http({
         method: 'GET',
@@ -548,6 +581,7 @@ function dayPlan($scope, $http, $routeParams, $location) {
     }).then(function successCallback(response) {
         var events = response.data;
         $scope.events = events;
+        $scope.date = events[0].date;
     }, function errorCallback(response) {
         console.log('fail');
     });
@@ -604,5 +638,83 @@ function mainPage($scope, $http, $routeParams, $location) {
         if (mode === 'person') {
             $location.path('/event/persons-plan/' + this.person);
         }
+    };
+};
+
+function editEvent($scope, $http, $routeParams, $location) {
+    $scope.id = $routeParams.id;
+    $scope.title = null;
+    $scope.category = null;
+    $scope.date = null;
+    $scope.selectedPeriod = null;
+    $scope.period = null;
+
+    $scope.periods = [
+        {id: 1, startHour: 8, endHour: 10},
+        {id: 2, startHour: 10, endHour: 12},
+        {id: 3, startHour: 12, endHour: 14},
+        {id: 4, startHour: 14, endHour: 16},
+        {id: 5, startHour: 16, endHour: 18},
+        {id: 6, startHour: 18, endHour: 20},
+        {id: 7, startHour: 20, endHour: 22},
+        {id: 8, startHour: 22, endHour: 24},
+    ]
+
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/events/' + $scope.id,
+    }).then(function successCallback(response) {
+        $scope.title = response.data.title;
+        $scope.category = response.data.category;
+        $scope.date = response.data.date;
+        $scope.period = response.data.period;
+        $scope.selectedPeriod = response.data.period;
+    }, function errorCallback(response) {
+        console.log('fail')
+    });
+
+
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/students'
+    }).then(function successCallback(response) {
+        var people = response.data;
+        $scope.people = people;
+    }, function errorCallback(response) {
+        console.log('fail')
+    });
+
+    $scope.editEvent = function () {
+        $http({
+            method: 'PUT',
+            url: 'http://localhost:3000/events/' + $scope.id,
+            data: {
+                'title': $scope.title,
+                'category': $scope.category,
+                'date': $scope.date,
+                'period': $scope.period,
+            }
+        }).then(function successCallback(response) {
+            // $location.path('/ps5/list');
+        }, function errorCallback(response) {
+            console.log('fail')
+        });
+    };
+
+    $scope.setCategory = function (id) {
+        $scope.category = id;
+    };
+};
+
+function deleteEvent($scope, $http, $routeParams, $location) {
+    $scope.eventDelete = function () {
+        $http({
+            method: 'DELETE',
+            url: 'http://localhost:3000/events/' + $routeParams.id,
+        }).then(function successCallback(response) {
+            $location.path('/');
+        }, function errorCallback(response) {
+            console.log('fail')
+        });
     };
 };
