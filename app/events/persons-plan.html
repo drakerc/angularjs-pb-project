@@ -1,4 +1,10 @@
 <div>
+    <div class="alert alert-success" role="alert" ng-if="success == '1'">
+        Pomyślnie stworzyłeś nowe wydarzenie!
+    </div>
+    <div class="alert alert-success" role="alert" ng-if="success == '2'">
+        Pomyślnie wyedytowałeś wydarzenie!
+    </div>
     <h1>Przeglądasz wydarzenia dla osoby {{ person }}</h1>
     <div ng-repeat="event in events">
         <show-event id="event.id" title="event.title" category="event.category" date="event.date" period="event.period" person="event.person"></show-event>
@@ -7,6 +13,7 @@
     <div ng-if="noRecords">
         Przepraszamy, ale ta osoba nie ma żadnych wydarzeń. Możesz jednak stworzyć nowe wydarzenie, używając przycisków na dole.
     </div>
-
-    <a href="#!/event/createWithPerson/{{personsId}}" class="btn btn-primary">Stwórz nowe wydarzenie</a>
+    <div class="text-right">
+        <a href="#!/event/createWithPerson/{{personsId}}" class="btn btn-primary">Stwórz nowe wydarzenie</a>
+    </div>
 </div>

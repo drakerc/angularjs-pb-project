@@ -1,5 +1,3 @@
-'use strict';
-
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
     'ui.bootstrap',
@@ -8,25 +6,25 @@ angular.module('myApp', [
     'myApp.version',
 ]).config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix('!');
-    $routeProvider.when('/ps5/create', {
-        templateUrl: 'studentEdit/studentEdit.html',
-        controller: addStudent
-    });
-
-    $routeProvider.when('/ps5/edit/:id', {
-        templateUrl: 'studentEdit/studentEditor.html',
-        controller: editStudent
-    });
-
-    $routeProvider.when('/ps5/list', {
-        templateUrl: 'studenci/studenci.html',
-        controller: listStudents
-    });
-
-    $routeProvider.when('/ps5/delete/:id', {
-        templateUrl: 'studentDelete/studentDelete.html',
-        controller: deleteStudent
-    });
+    // $routeProvider.when('/ps5/create', {
+    //     templateUrl: 'studentEdit/studentEdit.html',
+    //     controller: addStudent
+    // });
+    //
+    // $routeProvider.when('/ps5/edit/:id', {
+    //     templateUrl: 'studentEdit/studentEditor.html',
+    //     controller: editStudent
+    // });
+    //
+    // $routeProvider.when('/ps5/list', {
+    //     templateUrl: 'studenci/studenci.html',
+    //     controller: listStudents
+    // });
+    //
+    // $routeProvider.when('/ps5/delete/:id', {
+    //     templateUrl: 'studentDelete/studentDelete.html',
+    //     controller: deleteStudent
+    // });
 
     $routeProvider.when('/event/create', {
         templateUrl: 'events/create.html',
@@ -44,6 +42,11 @@ angular.module('myApp', [
     });
 
     $routeProvider.when('/event/persons-plan/:id', {
+        templateUrl: 'events/persons-plan.html',
+        controller: personsPlan
+    });
+
+    $routeProvider.when('/event/persons-plan/:id/:success', {
         templateUrl: 'events/persons-plan.html',
         controller: personsPlan
     });
@@ -79,40 +82,40 @@ angular.module('myApp', [
             var date = new Date(item);
             var month = date.getMonth();
 
-            if (month == 0) {
+            if (month === 0) {
                 return 'Styczeń';
             }
-            if (month == 1) {
+            if (month === 1) {
                 return 'Luty';
             }
-            if (month == 2) {
+            if (month === 2) {
                 return 'Marzec';
             }
-            if (month == 3) {
+            if (month === 3) {
                 return 'Kwiecień';
             }
-            if (month == 4) {
+            if (month === 4) {
                 return 'Maj';
             }
-            if (month == 5) {
+            if (month === 5) {
                 return 'Czerwiec';
             }
-            if (month == 6) {
+            if (month === 6) {
                 return 'Lipiec';
             }
-            if (month == 7) {
+            if (month === 7) {
                 return 'Sierpień';
             }
-            if (month == 8) {
+            if (month === 8) {
                 return 'Wrzesień';
             }
-            if (month == 9) {
+            if (month === 9) {
                 return 'Październik';
             }
-            if (month == 10) {
+            if (month === 10) {
                 return 'Listopad';
             }
-            if (month == 11) {
+            if (month === 11) {
                 return 'Grudzień';
             }
         };
@@ -123,25 +126,25 @@ angular.module('myApp', [
             var date = new Date(item);
             var day = date.getDay();
 
-            if (day == 0) {
+            if (day === 0) {
                 return 'Niedziela';
             }
-            if (day == 1) {
+            if (day === 1) {
                 return 'Poniedziałek';
             }
-            if (day == 2) {
+            if (day === 2) {
                 return 'Wtorek';
             }
-            if (day == 3) {
+            if (day === 3) {
                 return 'Środa';
             }
-            if (day == 4) {
+            if (day === 4) {
                 return 'Czwartek';
             }
-            if (day == 5) {
+            if (day === 5) {
                 return 'Piątek';
             }
-            if (day == 6) {
+            if (day === 6) {
                 return 'Sobota';
             }
         };
@@ -149,28 +152,28 @@ angular.module('myApp', [
 
     .filter('periodFilter', function () {
         return function (item) {
-            if (item == 1) {
+            if (item === 1) {
                 return '8-10';
             }
-            if (item == 2) {
+            if (item === 2) {
                 return '10-12';
             }
-            if (item == 3) {
+            if (item === 3) {
                 return '12-14';
             }
-            if (item == 4) {
+            if (item === 4) {
                 return '14-16';
             }
-            if (item == 5) {
+            if (item === 5) {
                 return '16-18';
             }
-            if (item == 6) {
+            if (item === 6) {
                 return '18-20';
             }
-            if (item == 7) {
+            if (item === 7) {
                 return '20-22';
             }
-            if (item == 8) {
+            if (item === 8) {
                 return '22-24';
             }
         };
@@ -178,8 +181,7 @@ angular.module('myApp', [
 
     .directive('back', ['$window', function ($window) {
         return {
-            restrict: 'A',
-            link: function (scope, elem, attrs) {
+            link: function (scope, elem) {
                 elem.bind('click', function () {
                     $window.history.back();
                 });
@@ -189,7 +191,6 @@ angular.module('myApp', [
 
     .component('showEvent', {
         templateUrl: 'events/components/showEvent.html',
-
         controller: function ($http) {
             this.$onInit = function () {
                 this.personDetails = null;
@@ -201,9 +202,8 @@ angular.module('myApp', [
                 }).then(function successCallback(response) {
                     that.personDetails = response.data.firstName + ' ' + response.data.lastName;
                 }, function errorCallback(response) {
-                    console.log('fail');
                 });
-            }
+            };
         },
         bindings: {
             id: '<',
@@ -217,7 +217,6 @@ angular.module('myApp', [
 
     .component('categoryBar', {
         templateUrl: 'events/components/categoryBar.html',
-
         controller: function () {
             this.$onInit = function () {
                 this.color = null;
@@ -228,17 +227,17 @@ angular.module('myApp', [
                     this.title = 'Zakupy';
                 }
                 if (this.category == 2) {
-                    this.color = 'bg-dark';
+                    this.color = 'bg-success';
                     this.title = 'Nauka';
                 }
                 if (this.category == 3) {
                     this.color = 'bg-warning';
                     this.title = 'Odpoczynek';
                 }
-            }
+            };
         },
         bindings: {
-            category: '<',
+            category: '<'
         }
     })
 
@@ -247,7 +246,11 @@ angular.module('myApp', [
         controller: function () {
             this.$onInit = function () {
                 this.category = null;
-                this.categories = [{id: 1, title: 'Zakupy'}, {id: 2, title: 'Nauka'}, {id: 3, title: 'Odpoczynek'}];
+                this.categories = [
+                    {id: 1, title: 'Zakupy'},
+                    {id: 2, title: 'Nauka'},
+                    {id: 3, title: 'Odpoczynek'}
+                ];
 
                 this.setCategory = function () {
                     this.onUpdate({id: this.category});
@@ -256,7 +259,7 @@ angular.module('myApp', [
         },
         bindings: {
             selected: '<',
-            onUpdate: '&',
+            onUpdate: '&'
         }
     })
 
@@ -277,7 +280,7 @@ angular.module('myApp', [
                     {id: 8, title: 'Wrzesień'},
                     {id: 9, title: 'Październik'},
                     {id: 10, title: 'Listopad'},
-                    {id: 11, title: 'Grudzień'},
+                    {id: 11, title: 'Grudzień'}
                 ];
 
                 this.setMonth = function () {
@@ -287,121 +290,10 @@ angular.module('myApp', [
             };
         },
         bindings: {
-            onUpdate: '&',
+            onUpdate: '&'
         }
 
     });
-
-
-function addStudent($scope, $http) {
-    this.firstName = '';
-    this.lastName = '';
-    this.age = 0;
-    this.student = {};
-
-    $scope.addStudent = function () {
-        if (typeof $scope.firstName !== 'string' || typeof $scope.lastName !== 'string' ||
-            typeof $scope.age !== 'number' || $scope.firstName === '' || $scope.lastName === '' || $scope.age === '') {
-            alert('Wprowadziles nieprawidlowe dane');
-            return false;
-        }
-
-        if ($scope.age >= 36 || $scope.age <= 18) {
-            alert('Wprowadziles nieprawidlowy wiek (nie jest w zakresie 19-35');
-            return false;
-        }
-
-        $http({
-            method: 'POST',
-            url: 'http://localhost:3000/students',
-            data: {'firstname': $scope.firstName, 'lastname': $scope.lastName, 'age': $scope.age}
-        }).then(function successCallback(response) {
-            $scope.student.imie = $scope.firstName;
-            $scope.student.nazwisko = $scope.lastName;
-            $scope.student.wiek = $scope.age;
-            $location.path('/ps5/list');
-
-        }, function errorCallback(response) {
-            console.log('fail')
-        });
-    };
-};
-
-function editStudent($scope, $http, $routeParams, $location) {
-    $scope.id = $routeParams.id;
-    $scope.firstName = '';
-    $scope.lastName = '';
-    $scope.age = 0;
-    $scope.marks = [];
-
-    $http({
-        method: 'GET',
-        url: 'http://localhost:3000/students/' + $scope.id,
-    }).then(function successCallback(response) {
-        $scope.firstName = response.data.firstName;
-        $scope.lastName = response.data.lastName;
-        $scope.age = response.data.age;
-        $scope.marks = response.data.oceny;
-
-    }, function errorCallback(response) {
-        console.log('fail')
-    });
-
-    $scope.editStudent = function () {
-        $http({
-            method: 'PUT',
-            url: 'http://localhost:3000/students/' + $scope.id,
-            data: {'firstName': $scope.firstName, 'lastName': $scope.lastName, 'age': $scope.age}
-        }).then(function successCallback(response) {
-            $location.path('/ps5/list');
-        }, function errorCallback(response) {
-            console.log('fail')
-        });
-    };
-};
-
-function listStudents($scope, $http) {
-    var self = this;
-    $http({
-        method: 'GET',
-        url: 'http://localhost:3000/students'
-    }).then(function successCallback(response) {
-        var studenci = response.data;
-        $scope.studenci = studenci;
-    }, function errorCallback(response) {
-        console.log('fail')
-    });
-
-    this.showAge = true;
-    this.filterPhrase = '';
-    this.orderByPhrase = 'imie'; //domyslnie jako od imienia
-
-    $scope.sortAge = function () {
-        $scope.orderByPhrase = 'age';
-    }
-
-    $scope.sortLastName = function () {
-        $scope.orderByPhrase = 'lastName';
-    }
-
-    $scope.triggerShowAge = function () {
-        this.showAge = !this.showAge;
-    };
-};
-
-function deleteStudent($scope, $http, $routeParams, $location) {
-    $scope.studentDelete = function () {
-        $http({
-            method: 'DELETE',
-            url: 'http://localhost:3000/students/' + $routeParams.id,
-        }).then(function successCallback(response) {
-            $location.path('/ps5/list');
-        }, function errorCallback(response) {
-            console.log('fail')
-        });
-    };
-};
-
 
 function createEvent($scope, $http, $location, $routeParams) {
     this.title = '';
@@ -410,7 +302,6 @@ function createEvent($scope, $http, $location, $routeParams) {
     this.person = 0;
     this.period = 0;
 
-    console.log($routeParams)
     if ($routeParams.id !== null) {
         $scope.person = $routeParams.id;
     }
@@ -436,7 +327,6 @@ function createEvent($scope, $http, $location, $routeParams) {
         var people = response.data;
         $scope.people = people;
     }, function errorCallback(response) {
-        console.log('fail')
     });
 
     $scope.add = function () {
@@ -458,9 +348,8 @@ function createEvent($scope, $http, $location, $routeParams) {
             }
         }).then(function successCallback(response) {
             // redirect to the list of person's events
-            $location.path('/event/persons-plan/' + $scope.person);
+            $location.path('/event/persons-plan/' + $scope.person + '/1');
         }, function errorCallback(response) {
-            console.log('fail');
         });
     };
 
@@ -471,9 +360,16 @@ function createEvent($scope, $http, $location, $routeParams) {
 
 
 function personsPlan($scope, $http, $routeParams, $location) {
-    var self = this;
     $scope.person = null;
     $scope.noRecords = false;
+    $scope.success = false;
+
+    if ($routeParams.success == '1') {
+        $scope.success = 1; // succesfully created
+    };
+    if ($routeParams.success == '2') {
+        $scope.success = 2; // succesfully edited
+    };
 
     $http({
         method: 'GET',
@@ -488,10 +384,8 @@ function personsPlan($scope, $http, $routeParams, $location) {
             $scope.person = response.data.firstName + ' ' + response.data.lastName;
             $scope.personsId = $routeParams.id;
         }, function errorCallback(response) {
-            console.log('fail')
         });
     }, function errorCallback(response) {
-        console.log('fail');
         $scope.noRecords = true;
         $http({
             method: 'GET',
@@ -499,14 +393,12 @@ function personsPlan($scope, $http, $routeParams, $location) {
         }).then(function successCallback(response) {
             $scope.person = response.data.firstName + ' ' + response.data.lastName;
         }, function errorCallback(response) {
-            console.log('fail')
         });
     });
 };
 
 
 function dayPlan($scope, $http, $routeParams, $location) {
-    var self = this;
     $scope.date = null;
     $scope.noRecords = false;
 
@@ -518,14 +410,12 @@ function dayPlan($scope, $http, $routeParams, $location) {
         $scope.events = events;
         $scope.date = events[0].date;
     }, function errorCallback(response) {
-        console.log('fail');
         $scope.noRecords = true;
         $scope.date = $routeParams.date;
     });
 };
 
 function monthlyPlan($scope, $http, $routeParams, $location) {
-    var self = this;
     $scope.date = null;
     $scope.noRecords = false;
 
@@ -537,13 +427,11 @@ function monthlyPlan($scope, $http, $routeParams, $location) {
         $scope.events = events;
         $scope.date = events[0].date;
     }, function errorCallback(response) {
-        console.log('fail');
         $scope.noRecords = true;
     });
 };
 
 function mainPage($scope, $http, $routeParams, $location) {
-    var self = this;
     $scope.mode = null;
     this.date = null;
     this.month = null;
@@ -556,7 +444,6 @@ function mainPage($scope, $http, $routeParams, $location) {
         var people = response.data;
         $scope.people = people;
     }, function errorCallback(response) {
-        console.log('fail');
     });
 
     $http({
@@ -564,16 +451,11 @@ function mainPage($scope, $http, $routeParams, $location) {
         url: 'http://localhost:3000/events'
     }).then(function successCallback(response) {
         var events = response.data;
-
         $scope.datesWithEvents = [];
-
         events.forEach(function (event) {
             $scope.datesWithEvents.push(event.date);
-        })
-
-        console.log($scope.datesWithEvents)
+        });
     }, function errorCallback(response) {
-        console.log('fail');
     });
 
 
@@ -599,7 +481,7 @@ function mainPage($scope, $http, $routeParams, $location) {
 
     $scope.clearChoice = function () {
         $scope.mode = null;
-    }
+    };
 };
 
 function editEvent($scope, $http, $routeParams, $location) {
@@ -619,8 +501,8 @@ function editEvent($scope, $http, $routeParams, $location) {
         {id: 5, startHour: 16, endHour: 18},
         {id: 6, startHour: 18, endHour: 20},
         {id: 7, startHour: 20, endHour: 22},
-        {id: 8, startHour: 22, endHour: 24},
-    ]
+        {id: 8, startHour: 22, endHour: 24}
+    ];
 
     $http({
         method: 'GET',
@@ -633,7 +515,6 @@ function editEvent($scope, $http, $routeParams, $location) {
         $scope.selectedPeriod = response.data.period;
         $scope.person = response.data.person;
     }, function errorCallback(response) {
-        console.log('fail')
     });
 
     $http({
@@ -643,7 +524,6 @@ function editEvent($scope, $http, $routeParams, $location) {
         var people = response.data;
         $scope.people = people;
     }, function errorCallback(response) {
-        console.log('fail')
     });
 
     $scope.editEvent = function () {
@@ -654,13 +534,12 @@ function editEvent($scope, $http, $routeParams, $location) {
                 'title': $scope.title,
                 'category': $scope.category,
                 'date': $scope.date,
-                'period': $scope.period,
+                'period': $scope.period
             }
         }).then(function successCallback(response) {
             // redirect to the list of person's events
-            $location.path('/event/persons-plan/' + $scope.person);
+            $location.path('/event/persons-plan/' + $scope.person + '/2');
         }, function errorCallback(response) {
-            console.log('fail')
         });
     };
 
@@ -672,22 +551,132 @@ function editEvent($scope, $http, $routeParams, $location) {
 function deleteEvent($scope, $http, $routeParams, $location) {
     $http({
         method: 'GET',
-        url: 'http://localhost:3000/events/' + $routeParams.id,
+        url: 'http://localhost:3000/events/' + $routeParams.id
     }).then(function successCallback(response) {
         $scope.title = response.data.title;
         $scope.date = response.data.date;
     }, function errorCallback(response) {
-        console.log('fail')
     });
 
     $scope.eventDelete = function () {
         $http({
             method: 'DELETE',
-            url: 'http://localhost:3000/events/' + $routeParams.id,
+            url: 'http://localhost:3000/events/' + $routeParams.id
         }).then(function successCallback(response) {
             $location.path('/');
         }, function errorCallback(response) {
-            console.log('fail')
         });
     };
 };
+
+
+// BEGIN STUDENT STUFF
+
+// function addStudent($scope, $http) {
+//     this.firstName = '';
+//     this.lastName = '';
+//     this.age = 0;
+//     this.student = {};
+//
+//     $scope.addStudent = function () {
+//         if (typeof $scope.firstName !== 'string' || typeof $scope.lastName !== 'string' ||
+//             typeof $scope.age !== 'number' || $scope.firstName === '' || $scope.lastName === '' || $scope.age === '') {
+//             alert('Wprowadziles nieprawidlowe dane');
+//             return false;
+//         }
+//
+//         if ($scope.age >= 36 || $scope.age <= 18) {
+//             alert('Wprowadziles nieprawidlowy wiek (nie jest w zakresie 19-35');
+//             return false;
+//         }
+//
+//         $http({
+//             method: 'POST',
+//             url: 'http://localhost:3000/students',
+//             data: {'firstname': $scope.firstName, 'lastname': $scope.lastName, 'age': $scope.age}
+//         }).then(function successCallback(response) {
+//             $scope.student.imie = $scope.firstName;
+//             $scope.student.nazwisko = $scope.lastName;
+//             $scope.student.wiek = $scope.age;
+//             $location.path('/ps5/list');
+//
+//         }, function errorCallback(response) {
+//             console.log('fail')
+//         });
+//     };
+// };
+//
+// function editStudent($scope, $http, $routeParams, $location) {
+//     $scope.id = $routeParams.id;
+//     $scope.firstName = '';
+//     $scope.lastName = '';
+//     $scope.age = 0;
+//     $scope.marks = [];
+//
+//     $http({
+//         method: 'GET',
+//         url: 'http://localhost:3000/students/' + $scope.id,
+//     }).then(function successCallback(response) {
+//         $scope.firstName = response.data.firstName;
+//         $scope.lastName = response.data.lastName;
+//         $scope.age = response.data.age;
+//         $scope.marks = response.data.oceny;
+//
+//     }, function errorCallback(response) {
+//         console.log('fail')
+//     });
+//
+//     $scope.editStudent = function () {
+//         $http({
+//             method: 'PUT',
+//             url: 'http://localhost:3000/students/' + $scope.id,
+//             data: {'firstName': $scope.firstName, 'lastName': $scope.lastName, 'age': $scope.age}
+//         }).then(function successCallback(response) {
+//             $location.path('/ps5/list');
+//         }, function errorCallback(response) {
+//             console.log('fail')
+//         });
+//     };
+// };
+//
+// function listStudents($scope, $http) {
+//     var self = this;
+//     $http({
+//         method: 'GET',
+//         url: 'http://localhost:3000/students'
+//     }).then(function successCallback(response) {
+//         var studenci = response.data;
+//         $scope.studenci = studenci;
+//     }, function errorCallback(response) {
+//         console.log('fail')
+//     });
+//
+//     this.showAge = true;
+//     this.filterPhrase = '';
+//     this.orderByPhrase = 'imie'; //domyslnie jako od imienia
+//
+//     $scope.sortAge = function () {
+//         $scope.orderByPhrase = 'age';
+//     }
+//
+//     $scope.sortLastName = function () {
+//         $scope.orderByPhrase = 'lastName';
+//     }
+//
+//     $scope.triggerShowAge = function () {
+//         this.showAge = !this.showAge;
+//     };
+// };
+//
+// function deleteStudent($scope, $http, $routeParams, $location) {
+//     $scope.studentDelete = function () {
+//         $http({
+//             method: 'DELETE',
+//             url: 'http://localhost:3000/students/' + $routeParams.id,
+//         }).then(function successCallback(response) {
+//             $location.path('/ps5/list');
+//         }, function errorCallback(response) {
+//             console.log('fail')
+//         });
+//     };
+// };

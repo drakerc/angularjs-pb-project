@@ -3,9 +3,13 @@ var express = require('express');
 var router = express.Router();
 
 //Periods: 1: 8-10 2: 10-12, 3: 12-14, 4: 14-16, 5: 16-18, 6: 18-20, 7: 20-22, 8: 22-24
-
 var events = [
-    {id: 1, title: 'Zrobic zakupy spozywcze', category: 1, date: '04-22-2018', period: 1, person: 1},
+    {id: 1, title: 'Zrobic zakupy spozywcze', category: 1, date: '05-21-2018', period: 1, person: 1},
+    {id: 2, title: 'Pojsc do kina', category: 2, date: '05-11-2018', period: 3, person: 1},
+    {id: 3, title: 'Odrobić lekcje', category: 1, date: '05-21-2018', period: 5, person: 1},
+    {id: 4, title: 'Wynieść śmieci', category: 1, date: '05-13-2018', period: 2, person: 2},
+    {id: 5, title: 'Nakarmić kota', category: 2, date: '05-14-2018', period: 6, person: 2},
+    {id: 6, title: 'Wystawić aukcję na allegro', category: 1, date: '05-13-2018', period: 5, person: 2},
 ];
 
 
