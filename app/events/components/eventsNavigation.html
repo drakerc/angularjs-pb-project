@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Filtracja i sortowanie</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sortowanie
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" ng-click="$ctrl.setSort('title')">Tytuł wydarzenia</a>
+                    <a class="dropdown-item" ng-click="$ctrl.setSort('date')">Data</a>
+                    <a class="dropdown-item" ng-click="$ctrl.setSort('period')">Przedział czasowy</a>
+                    <a class="dropdown-item" ng-click="$ctrl.setSort('person')">Osoba</a>
+                    <a class="dropdown-item" ng-click="$ctrl.setSort('category')">Kategoria</a>
+                </div>
+            </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-1" type="search" placeholder="Szukaj..." aria-label="Search" ng-model="$ctrl.filterPhrase">
+            <button class="btn btn-outline-success my-2 my-sm-0" ng-click="$ctrl.setFilter()">Szukaj</button>
+        </form>
+    </div>
+</nav>

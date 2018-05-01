@@ -5,8 +5,11 @@
     <div class="alert alert-success" role="alert" ng-if="success == '2'">
         Pomyślnie wyedytowałeś wydarzenie!
     </div>
+
     <h1>Przeglądasz wydarzenia dla osoby {{ person }}</h1>
-    <div ng-repeat="event in events">
+
+    <events-navigation on-update-sort="setSort(key)" on-update-filter="setFilter(key)"></events-navigation>
+    <div ng-repeat="event in events | filter: filterPhrase | orderBy: orderByPhrase">
         <show-event id="event.id" title="event.title" category="event.category" date="event.date" period="event.period" person="event.person"></show-event>
     </div>
 

@@ -1,31 +1,10 @@
-// Declare app level module which depends on views, and components
 angular.module('myApp', [
     'ui.bootstrap',
     'ngRoute',
     '720kb.datepicker',
-    'myApp.version',
+    'myApp.version'
 ]).config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix('!');
-    // $routeProvider.when('/ps5/create', {
-    //     templateUrl: 'studentEdit/studentEdit.html',
-    //     controller: addStudent
-    // });
-    //
-    // $routeProvider.when('/ps5/edit/:id', {
-    //     templateUrl: 'studentEdit/studentEditor.html',
-    //     controller: editStudent
-    // });
-    //
-    // $routeProvider.when('/ps5/list', {
-    //     templateUrl: 'studenci/studenci.html',
-    //     controller: listStudents
-    // });
-    //
-    // $routeProvider.when('/ps5/delete/:id', {
-    //     templateUrl: 'studentDelete/studentDelete.html',
-    //     controller: deleteStudent
-    // });
-
     $routeProvider.when('/event/create', {
         templateUrl: 'events/create.html',
         controller: createEvent
@@ -82,40 +61,40 @@ angular.module('myApp', [
             var date = new Date(item);
             var month = date.getMonth();
 
-            if (month === 0) {
+            if (month == 0) {
                 return 'Styczeń';
             }
-            if (month === 1) {
+            if (month == 1) {
                 return 'Luty';
             }
-            if (month === 2) {
+            if (month == 2) {
                 return 'Marzec';
             }
-            if (month === 3) {
+            if (month == 3) {
                 return 'Kwiecień';
             }
-            if (month === 4) {
+            if (month == 4) {
                 return 'Maj';
             }
-            if (month === 5) {
+            if (month == 5) {
                 return 'Czerwiec';
             }
-            if (month === 6) {
+            if (month == 6) {
                 return 'Lipiec';
             }
-            if (month === 7) {
+            if (month == 7) {
                 return 'Sierpień';
             }
-            if (month === 8) {
+            if (month == 8) {
                 return 'Wrzesień';
             }
-            if (month === 9) {
+            if (month == 9) {
                 return 'Październik';
             }
-            if (month === 10) {
+            if (month == 10) {
                 return 'Listopad';
             }
-            if (month === 11) {
+            if (month == 11) {
                 return 'Grudzień';
             }
         };
@@ -126,25 +105,25 @@ angular.module('myApp', [
             var date = new Date(item);
             var day = date.getDay();
 
-            if (day === 0) {
+            if (day == 0) {
                 return 'Niedziela';
             }
-            if (day === 1) {
+            if (day == 1) {
                 return 'Poniedziałek';
             }
-            if (day === 2) {
+            if (day == 2) {
                 return 'Wtorek';
             }
-            if (day === 3) {
+            if (day == 3) {
                 return 'Środa';
             }
-            if (day === 4) {
+            if (day == 4) {
                 return 'Czwartek';
             }
-            if (day === 5) {
+            if (day == 5) {
                 return 'Piątek';
             }
-            if (day === 6) {
+            if (day == 6) {
                 return 'Sobota';
             }
         };
@@ -152,30 +131,40 @@ angular.module('myApp', [
 
     .filter('periodFilter', function () {
         return function (item) {
-            if (item === 1) {
+            if (item == 1) {
                 return '8-10';
             }
-            if (item === 2) {
+            if (item == 2) {
                 return '10-12';
             }
-            if (item === 3) {
+            if (item == 3) {
                 return '12-14';
             }
-            if (item === 4) {
+            if (item == 4) {
                 return '14-16';
             }
-            if (item === 5) {
+            if (item == 5) {
                 return '16-18';
             }
-            if (item === 6) {
+            if (item == 6) {
                 return '18-20';
             }
-            if (item === 7) {
+            if (item == 7) {
                 return '20-22';
             }
-            if (item === 8) {
+            if (item == 8) {
                 return '22-24';
             }
+        };
+    })
+
+    .filter('europeanTimeFilter', function () {
+        return function (item) {
+            var dateObj = new Date(item);
+            var month = dateObj.getUTCMonth() + 1;
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            return day + '/' + month + '/' + year;
         };
     })
 
@@ -263,6 +252,29 @@ angular.module('myApp', [
         }
     })
 
+    .component('eventsNavigation', {
+        templateUrl: 'events/components/eventsNavigation.html',
+        controller: function () {
+            this.$onInit = function () {
+                this.filterPhrase = null;
+                this.sortKey = null;
+
+                this.setSort = function (key) {
+                    this.sortKey = key;
+                    this.onUpdateSort({key: this.sortKey});
+                };
+
+                this.setFilter = function () {
+                    this.onUpdateFilter({key: this.filterPhrase});
+                };
+            };
+        },
+        bindings: {
+            onUpdateSort: '&',
+            onUpdateFilter: '&'
+        }
+    })
+
     .component('monthSelector', {
         templateUrl: 'events/components/monthSelector.html',
         controller: function () {
@@ -292,7 +304,6 @@ angular.module('myApp', [
         bindings: {
             onUpdate: '&'
         }
-
     });
 
 function createEvent($scope, $http, $location, $routeParams) {
@@ -364,10 +375,10 @@ function personsPlan($scope, $http, $routeParams, $location) {
     $scope.noRecords = false;
     $scope.success = false;
 
-    if ($routeParams.success == '1') {
+    if ($routeParams.success === '1') {
         $scope.success = 1; // succesfully created
     };
-    if ($routeParams.success == '2') {
+    if ($routeParams.success === '2') {
         $scope.success = 2; // succesfully edited
     };
 
@@ -395,6 +406,16 @@ function personsPlan($scope, $http, $routeParams, $location) {
         }, function errorCallback(response) {
         });
     });
+
+    $scope.filterPhrase = '';
+    $scope.orderByPhrase = 'id';
+    $scope.setSort = function (key) {
+        $scope.orderByPhrase = key;
+    };
+
+    $scope.setFilter = function (key) {
+        $scope.filterPhrase = key;
+    };
 };
 
 
@@ -413,6 +434,16 @@ function dayPlan($scope, $http, $routeParams, $location) {
         $scope.noRecords = true;
         $scope.date = $routeParams.date;
     });
+
+    $scope.filterPhrase = '';
+    $scope.orderByPhrase = 'id';
+    $scope.setSort = function (key) {
+        $scope.orderByPhrase = key;
+    };
+
+    $scope.setFilter = function (key) {
+        $scope.filterPhrase = key;
+    };
 };
 
 function monthlyPlan($scope, $http, $routeParams, $location) {
@@ -429,6 +460,16 @@ function monthlyPlan($scope, $http, $routeParams, $location) {
     }, function errorCallback(response) {
         $scope.noRecords = true;
     });
+
+    $scope.filterPhrase = '';
+    $scope.orderByPhrase = 'id';
+    $scope.setSort = function (key) {
+        $scope.orderByPhrase = key;
+    };
+
+    $scope.setFilter = function (key) {
+        $scope.filterPhrase = key;
+    };
 };
 
 function mainPage($scope, $http, $routeParams, $location) {

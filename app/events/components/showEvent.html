@@ -2,7 +2,7 @@
     <category-bar category="$ctrl.category"></category-bar>
     <div class="card-body">
         <h5 class="card-title"><b>Tytuł wydarzenia:</b> {{ $ctrl.title }}</h5>
-        <h5 class="card-title"><b>Data: </b>{{ $ctrl.date }}</h5>
+        <h5 class="card-title"><b>Data: </b>{{ $ctrl.date | europeanTimeFilter }}</h5>
         <p class="card-text"><b>Przedział czasowy:</b> {{ $ctrl.period | periodFilter}}</p>
         <p class="card-text"><b>Osoba:</b> <a href="#!/event/persons-plan/{{$ctrl.person}}">{{ $ctrl.personDetails }}</a></p>
         <a href="#!/event/edit/{{$ctrl.id}}" class="btn btn-primary">Edytuj</a>
