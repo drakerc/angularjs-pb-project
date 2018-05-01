@@ -88,10 +88,10 @@ router.post('/', function (req, res) {
         events.push({
             id: newId,
             title: req.body.title,
-            category: req.body.category,
+            category: parseInt(req.body.category),
             date: req.body.date,
-            period: req.body.period,
-            person: req.body.person,
+            period: parseInt(req.body.period),
+            person: parseInt(req.body.person),
         });
         res.json({message: "New event created.", location: "/events/" + newId});
     }
@@ -110,9 +110,9 @@ router.put('/:id', function(req, res) {
             return;
         } else {
             events[updateIndex].title= req.body.title;
-            events[updateIndex].category = req.body.category;
+            events[updateIndex].category = parseInt(req.body.category);
             events[updateIndex].date = req.body.date;
-            events[updateIndex].period = req.body.period;
+            events[updateIndex].period = parseInt(req.body.period);
             res.json({message: "Event id " + req.params.id + " updated.",
                 location: "/events/" + req.params.id});
         }
