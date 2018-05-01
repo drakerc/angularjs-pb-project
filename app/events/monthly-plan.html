@@ -1,9 +1,10 @@
 <div>
-    <h1>Przeglądasz wydarzenia z miesiąca {{ date | monthFilter }}</h1>
-
-    <events-navigation on-update-sort="setSort(key)" on-update-filter="setFilter(key)"></events-navigation>
-    <div ng-repeat="event in events | filter: filterPhrase | orderBy: orderByPhrase">
-        <show-event-minimal id="event.id" title="event.title" category="event.category" date="event.date" period="event.period" person="event.person"></show-event-minimal>
+    <div ng-if="!noRecords">
+        <h1>Przeglądasz wydarzenia z miesiąca {{ date | monthFilter }}</h1>
+        <events-navigation on-update-sort="setSort(key)" on-update-filter="setFilter(key)"></events-navigation>
+        <div ng-repeat="event in events | filter: filterPhrase | orderBy: orderByPhrase">
+            <show-event-minimal id="event.id" title="event.title" category="event.category" date="event.date" period="event.period" person="event.person"></show-event-minimal>
+        </div>
     </div>
     <div ng-if="noRecords">
         Przepraszamy, ale w tym miesiącu nie ma żadnych wydarzeń. Możesz jednak stworzyć nowe wydarzenie, używając przycisków na dole.
