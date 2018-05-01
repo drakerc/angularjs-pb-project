@@ -437,6 +437,7 @@ function personsPlan($scope, $http, $routeParams, $location) {
         });
     }, function errorCallback(response) {
         $scope.noRecords = true;
+        $scope.personsId = $routeParams.id;
         $http({
             method: 'GET',
             url: 'http://localhost:3000/students/' + $routeParams.id,
