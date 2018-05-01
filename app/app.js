@@ -651,6 +651,10 @@ function mainPage($scope, $http, $routeParams, $location) {
             $location.path('/event/persons-plan/' + this.person);
         }
     };
+
+    $scope.clearChoice = function () {
+        $scope.mode = null;
+    }
 };
 
 function editEvent($scope, $http, $routeParams, $location) {

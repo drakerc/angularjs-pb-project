@@ -25,16 +25,19 @@
         </datepicker>
         <br><br>
         <a class="btn btn-primary btn-lg" role="button" ng-click="goToSelectedMode('day')">Przejdź dalej</a>
+        <a class="btn btn-warning btn-lg" role="button" ng-click="clearChoice()">Cofnij wybór</a>
     </p>
     <p class="lead" ng-if="mode == 'month'">
         <month-selector on-update="setMonth(id)"></month-selector><br>
         <a class="btn btn-primary btn-lg" role="button" ng-click="goToSelectedMode('month')">Przejdź dalej</a>
+        <a class="btn btn-warning btn-lg" role="button" ng-click="clearChoice()">Cofnij wybór</a>
     </p>
     <p class="lead" ng-if="mode == 'person'">
         <select name="personSelect" class="form-control" id="personSelect" ng-model="person">
             <option ng-repeat="person in people" value="{{person.id}}">{{person.firstName}} {{person.lastName}}</option>
         </select><br>
         <a class="btn btn-primary btn-lg" role="button" ng-click="goToSelectedMode('person')">Przejdź dalej</a>
+        <a class="btn btn-warning btn-lg" role="button" ng-click="clearChoice()">Cofnij wybór</a>
     </p>
     <a href="#!/event/create" class="btn btn-success">Stwórz nowe wydarzenie</a>
 </div>
